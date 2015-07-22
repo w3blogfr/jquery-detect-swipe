@@ -10,7 +10,8 @@
     version: '2.1.1',
     enabled: 'ontouchstart' in document.documentElement,
     preventDefault: true,
-    threshold: 20
+    threshold: 20,
+    ignoreMultiTouch: false
   };
 
   var startX,
@@ -51,6 +52,11 @@
       isMoving = true;
       this.addEventListener('touchmove', onTouchMove, false);
       this.addEventListener('touchend', onTouchEnd, false);
+    }
+    else if ($.detectSwipe.ignoreMultiTouch) {
+      // Ignore move & end events if more than one touch
+      this.removeEventListener('touchmove', onTouchMove);
+      this.removeEventListener('touchend', onTouchEnd); 
     }
   }
 
